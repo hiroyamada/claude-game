@@ -49,12 +49,12 @@ const InkShader = {
       // saturation / grade
       float l = dot(col.rgb, vec3(0.299, 0.587, 0.114));
       col.rgb = mix(vec3(l), col.rgb, uSat);
-      col.rgb = mix(col.rgb, col.rgb * vec3(0.85, 0.95, 1.2), uCold * 0.5);
-      if (uSlowmo > 0.0) { col.rgb = mix(col.rgb, vec3(l) * vec3(0.8, 0.95, 1.15), uSlowmo * 0.55); }
+      col.rgb = mix(col.rgb, col.rgb * vec3(0.85, 0.95, 1.2), clamp(uCold, 0.0, 1.0) * 0.5);
+      if (uSlowmo > 0.0) { col.rgb = mix(col.rgb, vec3(l) * vec3(0.8, 0.95, 1.15), clamp(uSlowmo, 0.0, 1.0) * 0.55); }
       vec2 c = vUv - 0.5;
       float v = 1.0 - dot(c, c) * uVignette * 2.2;
       col.rgb *= v;
-      col.rgb = mix(col.rgb, vec3(0.8, 0.05, 0.05), uHurt * smoothstep(0.15, 0.6, length(c)) * 0.7);
+      col.rgb = mix(col.rgb, vec3(0.8, 0.05, 0.05), clamp(uHurt, 0.0, 1.0) * smoothstep(0.15, 0.6, length(c)) * 0.7);
       gl_FragColor = col;
     }`,
 };

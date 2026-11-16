@@ -66,6 +66,7 @@ export class Game {
   shrineReturn = new THREE.Vector3();
   bulletTime = false;
   noRender = false;
+  private hurtFlash = 0;
   coldness = 0;
   private hitstopT = 0;
   private flurryT = 0;
@@ -219,7 +220,7 @@ export class Game {
     if (P.extraHearts > 0) { const a = Math.min(P.extraHearts, dmg); P.extraHearts -= a; dmg -= a; }
     P.health = Math.max(0, P.health - dmg);
     audio.play('hurt');
-    this.renderer.ink.uniforms.uHurt.value = 1;
+    this.hurtFlash = 0.6;
     this.input.rumble(0.7, 160);
     if (P.health <= 0) this.onPlayerDeath();
     else if (P.health <= 4) audio.play('lowHp');
@@ -684,7 +685,9 @@ export class Game {
     // post fx
     const ink = this.renderer.ink?.uniforms;
     if (ink) {
-      ink.uHurt.value = Math.max(0, ink.uHurt.value - dt * 2) + (this.player.health <= 4 && this.mode === 'play' ? 0.25 + Math.sin(performance.now() * 0.006) * 0.1 : 0);
+      this.hurtFlash = Math.max(0, this.hurtFlash - dt * 2);
+      const lowHp = this.player.health <= 4 && this.mode === 'play' ? 0.25 + Math.sin(performance.now() * 0.006) * 0.1 : 0;
+      ink.uHurt.value = Math.min(1, this.hurtFlash + lowHp);
       ink.uSlowmo.value += ((this.flurryT > 0 || this.bulletTime ? 1 : 0) - ink.uSlowmo.value) * Math.min(1, dt * 8);
       ink.uCold.value = this.coldness;
       ink.uInk.value = this.inShrine ? 0.7 : 1;

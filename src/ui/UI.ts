@@ -154,7 +154,7 @@ export class UI {
     if (this.mmT <= 0) {
       this.mmT = 0.1;
       const temp = g.inShrine ? 18 : Math.round(26 - Math.max(0, P.pos.y) * 0.14 - (g.sky.isNight ? 8 : 0) + g.terrain.biome(P.pos.x, P.pos.z).desert * 12);
-      const wIcon = { clear: g.sky.isNight ? '🌙' : '☀️', cloudy: '☁️', rain: '🌧️', storm: '⛈️' }[g.weather.kind];
+      const wIcon = g.inShrine ? '🏛️' : { clear: g.sky.isNight ? '🌙' : '☀️', cloudy: '☁️', rain: '🌧️', storm: '⛈️' }[g.weather.kind];
       this.envinfo.innerHTML = `<span>${wIcon} ${temp}°</span><span>🕐 ${g.sky.clockString()}</span>`;
       this.drawMinimap();
     }
