@@ -152,7 +152,7 @@ export class Vegetation {
 
   private add(kind: Kind, x: number, y: number, z: number, s: number, rnd: () => number) {
     const color = new THREE.Color(1, 1, 1);
-    if (kind === 'oak') color.setHSL(0.22 + rnd() * 0.08, 0.45, 0.5 + rnd() * 0.15).multiplyScalar(1.7);
+    if (kind === 'oak') color.setHSL(0.24 + rnd() * 0.07, 0.4, 0.45 + rnd() * 0.12).multiplyScalar(1.3);
     if (kind === 'pine') color.setHSL(0.36 + rnd() * 0.05, 0.3, 0.5).multiplyScalar(1.6);
     if (kind === 'flower') color.setHSL([0.0, 0.13, 0.6, 0.85, 0.08][Math.floor(rnd() * 5)], 0.85, 0.65);
     if (kind === 'rock') { color.setScalar(0.85 + rnd() * 0.3); if (y > SNOW_LINE) color.multiply(new THREE.Color(1.05, 1.05, 1.1)); }

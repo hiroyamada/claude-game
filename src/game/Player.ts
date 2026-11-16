@@ -115,11 +115,12 @@ export class Player {
     const shape = new THREE.Shape();
     shape.moveTo(-1.6, 0); shape.quadraticCurveTo(0, 0.5, 1.6, 0); shape.lineTo(1.2, -0.9); shape.quadraticCurveTo(0, -0.6, -1.2, -0.9); shape.closePath();
     const cloth = new THREE.Mesh(new THREE.ShapeGeometry(shape, 8), makeToonMaterial({ color: 0xd8a25a, side: THREE.DoubleSide }));
-    cloth.rotation.x = -Math.PI / 2 + 0.15;
-    cloth.position.set(0, 2.25, 0.2);
+    cloth.rotation.x = -Math.PI / 2 + 0.45;
+    cloth.scale.setScalar(1.15);
+    cloth.position.set(0, 2.25, 0.25);
     grp.add(cloth);
     const stripe = new THREE.Mesh(new THREE.PlaneGeometry(3.0, 0.15), makeToonMaterial({ color: 0x8a3a2a, side: THREE.DoubleSide }));
-    stripe.rotation.x = -Math.PI / 2 + 0.15; stripe.position.set(0, 2.27, 0.05);
+    stripe.rotation.x = -Math.PI / 2 + 0.45; stripe.position.set(0, 2.3, 0.1);
     grp.add(stripe);
     const rodM = makeToonMaterial({ color: 0x6b4a2f });
     for (const x of [-0.25, 0.25]) {
