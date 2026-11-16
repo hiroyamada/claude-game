@@ -101,6 +101,7 @@ export class Physics {
   remove(b: Body) {
     b.dead = true;
     b.mesh.removeFromParent();
+    b.mesh.traverse((o) => (o as THREE.Mesh).geometry?.dispose());
     if (b.collider) this.g.colliders.remove(b.collider);
     const i = this.bodies.indexOf(b); if (i >= 0) this.bodies.splice(i, 1);
   }
@@ -287,6 +288,7 @@ export class Physics {
         }
         // bombs detonate in water etc.
       }
+      if (!Number.isFinite(b.pos.x + b.pos.y + b.pos.z) || !Number.isFinite(b.vel.x + b.vel.y + b.vel.z)) { if (b.home) { b.pos.copy(b.home); b.vel.set(0, 0, 0); } else { this.remove(b); continue; } }
       // mesh
       b.mesh.position.copy(b.pos);
       if (b.sphere && b.dynamic && !b.held) {

@@ -61,7 +61,7 @@ export class Shrines {
 
   private destroy() {
     const g = this.g;
-    if (this.group) { this.group.removeFromParent(); this.group = null; }
+    if (this.group) { this.group.traverse((o) => (o as THREE.Mesh).geometry?.dispose()); this.group.removeFromParent(); this.group = null; }
     for (const c of this.colliders) g.colliders.remove(c);
     for (const b of this.bodies) if (!b.dead) g.phys.remove(b);
     for (const it of this.interactables) g.removeInteractable(it);

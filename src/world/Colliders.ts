@@ -22,6 +22,7 @@ export class Colliders {
     if (c.type === 'cyl') { minx = c.x - c.r; maxx = c.x + c.r; minz = c.z - c.r; maxz = c.z + c.r; }
     else { minx = c.min.x; maxx = c.max.x; minz = c.min.z; maxz = c.max.z; }
     const keys: number[] = [];
+    if (![minx, maxx, minz, maxz].every(Number.isFinite) || maxx - minx > 4000 || maxz - minz > 4000) { this.all.set(c.id, { c, keys }); return; }
     for (let i = Math.floor(minx / CELL); i <= Math.floor(maxx / CELL); i++)
       for (let j = Math.floor(minz / CELL); j <= Math.floor(maxz / CELL); j++) {
         const k = this.key(i, j); keys.push(k);
@@ -52,6 +53,7 @@ export class Colliders {
 
   query(x: number, z: number, r: number, out: Collider[] = []): Collider[] {
     out.length = 0;
+    if (!Number.isFinite(x) || !Number.isFinite(z) || !(r < 2000)) return out;
     const seen = new Set<number>();
     for (let i = Math.floor((x - r) / CELL); i <= Math.floor((x + r) / CELL); i++)
       for (let j = Math.floor((z - r) / CELL); j <= Math.floor((z + r) / CELL); j++) {

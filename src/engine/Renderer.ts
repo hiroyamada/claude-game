@@ -71,6 +71,15 @@ export class Renderer {
   constructor(public canvas: HTMLCanvasElement, quality: Quality) {
     this.quality = quality;
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: quality === 0, powerPreference: 'high-performance' });
+    canvas.addEventListener('webglcontextlost', (e) => {
+      e.preventDefault();
+      try { (window as any).game?.save?.(); } catch {}
+      const d = document.createElement('div');
+      d.style.cssText = 'position:fixed;inset:0;z-index:99;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0b1020;color:#f4efe2;font-family:sans-serif;gap:12px;text-align:center;padding:20px';
+      d.innerHTML = '<h2>The graphics driver reset.</h2><p>Your progress was saved. Lowering graphics quality in System settings can help.</p><button style="padding:10px 20px;font-size:16px">Reload</button>';
+      d.querySelector('button')!.onclick = () => location.reload();
+      document.body.appendChild(d);
+    });
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.0;

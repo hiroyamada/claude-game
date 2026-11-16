@@ -282,6 +282,9 @@ export class Enemy {
 
   dispose() {
     this.root.removeFromParent();
+    this.anim.mixer.stopAllAction(); this.anim.mixer.uncacheRoot(this.model);
+    const seen = new Set<THREE.Skeleton>();
+    this.root.traverse((o) => { const sk = (o as THREE.SkinnedMesh).skeleton; if (sk && !seen.has(sk)) { seen.add(sk); sk.dispose(); } });
     this.label?.remove();
   }
 }

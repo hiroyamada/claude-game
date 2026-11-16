@@ -146,6 +146,7 @@ export class Effects {
       if (k >= 1) {
         this.scene.remove(tr.obj);
         (tr.obj as THREE.Mesh).geometry?.dispose?.();
+        const mt = (tr.obj as THREE.Mesh).material as THREE.Material | undefined; if (mt && mt.dispose) mt.dispose();
         this.transients.splice(i, 1);
       }
     }

@@ -261,6 +261,8 @@ export class Player {
     } else this.coldT = 0;
     g.coldness = damp(g.coldness, cold && !warm ? 1 : 0, 2, dt);
 
+    // numerical safety
+    if (!Number.isFinite(this.pos.x + this.pos.y + this.pos.z) || !Number.isFinite(this.vel.x + this.vel.y + this.vel.z)) { this.vel.set(0, 0, 0); this.respawnSafe(); }
     // fall out of world
     if (this.pos.y < -60 || (this.g.inShrine && this.pos.y < this.g.shrines.floorY() - 25)) {
       g.damagePlayer(4, null, 'fall'); this.respawnSafe();
