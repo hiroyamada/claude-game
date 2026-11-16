@@ -231,7 +231,7 @@ export class Vegetation {
     const count = quality >= 2 ? 90000 : quality === 1 ? 45000 : 16000;
     const radius = quality >= 2 ? 42 : quality === 1 ? 32 : 22;
     // blade geometry: 2 segments tapered
-    const bp = new Float32Array([-0.04, 0, 0, 0.04, 0, 0, -0.028, 0.28, 0, 0.028, 0.28, 0, 0, 0.56, 0]);
+    const bp = new Float32Array([-0.035, 0, 0, 0.035, 0, 0, -0.024, 0.2, 0, 0.024, 0.2, 0, 0, 0.4, 0]);
     const bi = [0, 1, 2, 2, 1, 3, 2, 3, 4];
     const g = new THREE.InstancedBufferGeometry();
     g.setAttribute('position', new THREE.BufferAttribute(bp, 3));
@@ -285,7 +285,7 @@ export class Vegetation {
           vec3 p = position * sc;
           float cs = cos(aOff.w), sn = sin(aOff.w);
           p.xz = mat2(cs, -sn, sn, cs) * p.xz;
-          float t = position.y / 0.56;
+          float t = position.y / 0.4;
           vT = t;
           // wind
           float w = sin(uTime*1.8 + wp.x*0.25 + wp.y*0.18) * 0.5 + sin(uTime*3.1 + wp.x*0.7) * 0.2;

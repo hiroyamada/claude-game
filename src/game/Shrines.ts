@@ -28,8 +28,8 @@ export class Shrines {
   private anim: (() => void)[] = [];
 
   constructor(private g: Game) {
-    this.M.floor = makeToonMaterial({ color: 0x8a90b0, worldNoise: true, rim: 0.2 });
-    this.M.wall = makeToonMaterial({ color: 0x5c6488, worldNoise: true });
+    this.M.floor = makeToonMaterial({ color: 0xb4ab98, worldNoise: true, rim: 0.15 });
+    this.M.wall = makeToonMaterial({ color: 0x7a7488, worldNoise: true });
     this.M.trim = makeToonMaterial({ color: 0x5ad0ff, emissive: 0x2a90ff, emissiveIntensity: 1.3 });
     this.M.orange = makeToonMaterial({ color: 0xffa040, emissive: 0xff7a1a, emissiveIntensity: 1.3 });
     this.M.altar = makeToonMaterial({ color: 0x7a7ea0, rim: 0.4 });
@@ -111,7 +111,7 @@ export class Shrines {
   private L(x: number, y: number, z: number) { return new THREE.Vector3(this.origin.x + x, this.origin.y + y, this.origin.z + z); }
   private addInt(it: any) { this.g.addInteractable(it); this.interactables.push(it); }
   private body(kind: Body['kind'], x: number, y: number, z: number, size: THREE.Vector3 | number, opts: Partial<Body> = {}) {
-    const b = this.g.phys.add(kind, this.L(x, y, z), size, opts);
+    const b = this.g.phys.add(kind, this.L(x, y, z), size, { home: this.L(x, y, z), ...opts });
     this.bodies.push(b);
     return b;
   }
@@ -252,7 +252,7 @@ export class Shrines {
     this.floor(0, -1, 16, 8);
     this.wallsAround(-8, 8, -40, 3);
     this.runePedestal(-3, -2, 'ice');
-    const wmat = makeToonMaterial({ color: 0x3fb0d9, transparent: true, opacity: 0.75, emissive: 0x0a3050 });
+    const wmat = makeToonMaterial({ color: 0x3a8fb0, transparent: true, opacity: 0.72, emissive: 0x000000 });
     const O = this.origin;
     const pool = (z0: number, z1: number, floorTop: number, level: number) => {
       this.box(0, floorTop - 2, (z0 + z1) / 2, 16, 2, z1 - z0, this.M.floor);
@@ -300,7 +300,7 @@ export class Shrines {
     const level = -40;
     this.pools.push({ minX: O.x - 30, maxX: O.x + 30, minZ: O.z - 120, maxZ: O.z - 5, level: O.y + level });
     this.box(0, level - 4, -62, 60, 2, 116, this.M.floor);
-    const water = new THREE.Mesh(new THREE.PlaneGeometry(60, 116), makeToonMaterial({ color: 0x2f80c9, transparent: true, opacity: 0.8, emissive: 0x0a2040 }));
+    const water = new THREE.Mesh(new THREE.PlaneGeometry(60, 116), makeToonMaterial({ color: 0x2f70a0, transparent: true, opacity: 0.8 }));
     water.rotation.x = -Math.PI / 2; water.position.set(O.x, O.y + level, O.z - 62); this.group!.add(water);
     // climbable column back up to the start
     this.box(0, level - 2, -6, 4, -level + 2, 2, this.M.floor);

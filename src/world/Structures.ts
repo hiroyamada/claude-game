@@ -48,8 +48,8 @@ export class Structures {
     this.M.stone = makeToonMaterial({ color: 0x9a948a, worldNoise: true });
     this.M.darkstone = makeToonMaterial({ color: 0x5a5866, worldNoise: true });
     this.M.ancient = makeToonMaterial({ color: 0x6d6a78, worldNoise: true, rim: 0.3 });
-    this.M.glowOrange = makeToonMaterial({ color: 0xff9a3a, emissive: 0xff7a1a, emissiveIntensity: 1.2 });
-    this.M.glowBlue = makeToonMaterial({ color: 0x6ad8ff, emissive: 0x3ab8ff, emissiveIntensity: 1.4 });
+    this.M.glowOrange = makeToonMaterial({ color: 0xff9a3a, emissive: 0xd06010, emissiveIntensity: 0.8 });
+    this.M.glowBlue = makeToonMaterial({ color: 0x6ad8ff, emissive: 0x2a90d0, emissiveIntensity: 0.7 });
     this.M.wood = makeToonMaterial({ color: 0x8a5f3a, worldNoise: true });
     this.M.roof = makeToonMaterial({ color: 0xb0503a });
     this.M.roof2 = makeToonMaterial({ color: 0x4a6a9a });

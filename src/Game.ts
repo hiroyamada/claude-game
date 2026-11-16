@@ -581,7 +581,7 @@ export class Game {
   private updateFog() {
     const f = this.scene.fog as THREE.Fog;
     const q = this.settings.quality;
-    if (this.inShrine) { f.near = 45; f.far = 220; this.scene.background = new THREE.Color(0x1a2238); }
+    if (this.inShrine) { f.near = 45; f.far = 220; this.scene.background = new THREE.Color(0x1c1e28); }
     else { f.near = q === 0 ? 90 : 160; f.far = q === 0 ? 650 : q === 1 ? 900 : 1150; this.scene.background = null; }
     this.camera.far = this.inShrine ? 300 : f.far + 50;
     this.camera.updateProjectionMatrix();

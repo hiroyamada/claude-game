@@ -28,6 +28,7 @@ export interface Body {
   tagId?: string;
   restT: number;
   baseColor?: THREE.Color;
+  home?: THREE.Vector3;
 }
 
 const tmp = new THREE.Vector3();
@@ -280,7 +281,10 @@ export class Physics {
             if (e.pos.distanceTo(b.pos) < b.half.x + 1) g.damageEnemy(e, spd * 1.5, b.vel.clone().normalize(), 1.6);
           }
         }
-        if (b.pos.y < -80 || (g.inShrine && b.pos.y < g.shrines.floorY() - 30)) { b.onBreak?.(); this.remove(b); continue; }
+        if (b.pos.y < -80 || (g.inShrine && b.pos.y < g.shrines.floorY() - 30)) {
+          if (b.home && b.kind !== 'bomb') { b.pos.copy(b.home); b.vel.set(0, 0, 0); if (b.held) g.runes.release(); g.fx.burst(b.pos, 20, 0x9ff0ff, 3, 0.3, 0.6, 0); }
+          else { b.onBreak?.(); this.remove(b); continue; }
+        }
         // bombs detonate in water etc.
       }
       // mesh

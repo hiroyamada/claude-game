@@ -5,15 +5,15 @@ import { lerp, clamp, smoothstep } from '../engine/noise';
 
 interface Key { t: number; top: number; hor: number; sun: number; sunI: number; amb: number; ground: number; fog: number; }
 const KEYS: Key[] = [
-  { t: 0, top: 0x060b1e, hor: 0x1b2747, sun: 0x8fa5d8, sunI: 0.35, amb: 0x34406a, ground: 0x1a1f2a, fog: 0x1a2340 },
-  { t: 4.5, top: 0x0b1430, hor: 0x2a3358, sun: 0x8fa5d8, sunI: 0.3, amb: 0x343d66, ground: 0x1d2028, fog: 0x232b4a },
+  { t: 0, top: 0x0a1430, hor: 0x24345e, sun: 0xa6b8ea, sunI: 0.7, amb: 0x5a6aa0, ground: 0x2a3042, fog: 0x22305a },
+  { t: 4.5, top: 0x0e1836, hor: 0x2e3a62, sun: 0xa6b8ea, sunI: 0.6, amb: 0x56649a, ground: 0x2a2e3c, fog: 0x283458 },
   { t: 5.8, top: 0x34507e, hor: 0xf09a6a, sun: 0xffb27a, sunI: 0.9, amb: 0x7f7a94, ground: 0x4a3c34, fog: 0xc99a86 },
   { t: 7.5, top: 0x4a8fd6, hor: 0xbfe0f2, sun: 0xfff1d6, sunI: 2.4, amb: 0x9fbbe0, ground: 0x6b6b4a, fog: 0xbcd8ec },
   { t: 12, top: 0x3d84d8, hor: 0xc4e4f6, sun: 0xfff8ea, sunI: 2.8, amb: 0xa8c4e8, ground: 0x707052, fog: 0xc2dcf0 },
   { t: 16.5, top: 0x4a8bd0, hor: 0xd2e2ee, sun: 0xffe9c8, sunI: 2.5, amb: 0xa5bcdc, ground: 0x6e6a4c, fog: 0xc8dcea },
   { t: 18.3, top: 0x3a4f86, hor: 0xf3925a, sun: 0xff9a5a, sunI: 1.2, amb: 0x8f7a90, ground: 0x4c3a30, fog: 0xd99070 },
-  { t: 19.8, top: 0x111a3a, hor: 0x41385e, sun: 0x9aaee0, sunI: 0.35, amb: 0x3c4270, ground: 0x1d1f2a, fog: 0x2e2f50 },
-  { t: 24, top: 0x060b1e, hor: 0x1b2747, sun: 0x8fa5d8, sunI: 0.35, amb: 0x34406a, ground: 0x1a1f2a, fog: 0x1a2340 },
+  { t: 19.8, top: 0x141e42, hor: 0x463c66, sun: 0xa6b8ea, sunI: 0.6, amb: 0x5a6498, ground: 0x2a2c3a, fog: 0x34365a },
+  { t: 24, top: 0x0a1430, hor: 0x24345e, sun: 0xa6b8ea, sunI: 0.7, amb: 0x5a6aa0, ground: 0x2a3042, fog: 0x22305a },
 ];
 
 const c1 = new THREE.Color(), c2 = new THREE.Color();
@@ -139,17 +139,17 @@ export class Sky {
     U.uCloud.value = cloudiness;
     U.uDark.value = this.weatherDark;
 
-    const dark = 1 - this.weatherDark * 0.55;
+    const dark = 1 - this.weatherDark * (this.isNight ? 0.3 : 0.55);
     this.sun.color.copy(sunCol);
     this.sun.intensity = this.indoor ? 1.3 : lerp(a.sunI, b.sunI, f) * dark;
     if (this.indoor) this.sun.color.setHex(0xdde8ff);
     this.hemi.color.copy(lerpHex(a.amb, b.amb, f, c2.clone()));
     this.hemi.groundColor.setHex(a.ground).lerp(c1.setHex(b.ground), f);
-    this.hemi.intensity = this.indoor ? 2.4 : 1.25 * (1 - this.weatherDark * 0.3);
-    if (this.indoor) { this.hemi.color.setHex(0xb8c8f0); this.hemi.groundColor.setHex(0x4a4560); }
+    this.hemi.intensity = this.indoor ? 1.9 : 1.25 * (1 - this.weatherDark * 0.3);
+    if (this.indoor) { this.hemi.color.setHex(0xd8d6e0); this.hemi.groundColor.setHex(0x55505a); }
 
     this.fogColor.lerp(c1.setHex(0x6c7480), this.weatherDark * 0.6);
-    if (scene.fog) (scene.fog as THREE.Fog).color.copy(this.indoor ? c1.setHex(0x1a2238) : this.fogColor);
+    if (scene.fog) (scene.fog as THREE.Fog).color.copy(this.indoor ? c1.setHex(0x1c1e28) : this.fogColor);
 
     // shadow camera follows the focus point, snapped to texels to avoid shimmer
     const s = this.shadowSize;

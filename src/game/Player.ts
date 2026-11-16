@@ -429,8 +429,8 @@ export class Player {
     this.state = 'ground'; this.stateT = 0;
     this.gliderMesh.visible = false;
     if (this.attack?.kind === 'plunge') { this.plungeImpact(); }
-    if (fall > 9 && (this.state as PState) !== 'dead') {
-      const dmg = Math.floor((fall - 8) * 0.9);
+    if (fall > 11 && (this.state as PState) !== 'dead') {
+      const dmg = Math.floor((fall - 10) * 0.6);
       if (dmg > 0) g.damagePlayer(dmg, null, 'fall');
       if (this.state === 'ground') this.playOnce('Jump_Land', 1);
     } else if (this.vel.y < -6) { this.playOnce('Jump_Land', 1.5); }
@@ -480,7 +480,7 @@ export class Player {
       return;
     }
     const moving = Math.abs(mx) + Math.abs(my) > 0.1;
-    if (moving) this.useStamina(9 * dt);
+    if (moving) this.useStamina(7 * dt);
     if (this.exhausted || this.stamina <= 0) { this.letGo(); return; }
     let speed = 1.9 * this.speedMul;
     // rain: slip
