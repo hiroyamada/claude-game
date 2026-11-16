@@ -81,7 +81,7 @@ export class Game {
   private lastHour = 0;
   private bossIntroT = 0;
   private clock = new THREE.Timer();
-  private fps = 60; private fpsT = 0; private frames = 0;
+  fps = 60; private fpsT = 0; private frames = 0; private lowFps = 0;
 
   constructor(canvas: HTMLCanvasElement) {
     this.settings = this.loadSettings();
@@ -604,8 +604,22 @@ export class Game {
   frame(dt: number) {
     this.input.update(dt);
     // fps watch
-    this.frames++; this.fpsT += dt;
-    if (this.fpsT > 1) { this.fps = this.frames / this.fpsT; this.frames = 0; this.fpsT = 0; }
+    this.frames++;
+    const now = performance.now();
+    if (!this.fpsT) this.fpsT = now;
+    if (now - this.fpsT > 1000) {
+      this.fps = (this.frames * 1000) / (now - this.fpsT); this.frames = 0; this.fpsT = now;
+      // dynamic resolution: step pixel ratio down when the frame rate stays low
+      if (this.mode === 'play' && !this.noRender) {
+        this.lowFps = this.fps < 42 ? this.lowFps + 1 : 0;
+        const r = this.renderer.renderer;
+        if (this.lowFps >= 4 && r.getPixelRatio() > 1.01 && !/HeadlessChrome/.test(navigator.userAgent)) {
+          r.setPixelRatio(Math.max(1, r.getPixelRatio() - 0.25));
+          this.renderer.resize(this.camera);
+          this.lowFps = 0;
+        }
+      }
+    }
     globalUniforms.uTime.value += dt;
     globalUniforms.uWind.value = this.weather.wind;
     // time scales

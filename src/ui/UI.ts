@@ -724,7 +724,7 @@ export class UI {
       let t = 0; let last = performance.now();
       const step = () => {
         const now = performance.now(); t += (now - last) / 1000; last = now;
-        const inp = this.g.input; inp.update(0.016);
+        const inp = this.g.input;
         if (t > 4.5 || inp.pressed('confirm') || inp.pressed('attack') || inp.pressed('jump')) {
           t = 0; i++;
           if (i >= lines.length) { s.remove(); resolve(); return; }
